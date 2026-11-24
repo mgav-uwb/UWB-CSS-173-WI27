@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSS 173 · Prerequisites · Winter 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{ --paper:#fbf7ee; --ink:#26252e; --dim:#6a6975; --line:#e3ded4; --card:#ffffff;
+    --lemon:#fbe9a6; --lemon-d:#9a6f00; --mint:#cbebd9; --mint-d:#217a4e; --peach:#fbd9c4; --peach-d:#b8521c;
+    --sky:#cfe2f8; --sky-d:#2a62a8; --lilac:#e2d7fb; --lilac-d:#6446b9; --rose:#f9d3e2; --rose-d:#b33366;
+    --aqua:#cbeeea; --aqua-d:#1e7d76; --accent:#2f6f9f; --accent2:#b7791f; }
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--ink);font:16px/1.55 "Source Sans 3","Segoe UI",sans-serif;padding:28px clamp(14px,4vw,56px) 64px;
+       background:radial-gradient(900px 520px at 8% -6%, #f9d3e2 0%, transparent 60%),
+                  radial-gradient(760px 480px at 96% 4%, #cfe2f8 0%, transparent 62%),
+                  radial-gradient(900px 700px at 50% 108%, #cbebd9 0%, transparent 60%), var(--paper);background-attachment:fixed}
+  .page{max-width:1040px;margin:0 auto}
+  .crumb{font-size:14px;margin-bottom:8px} .crumb a{color:var(--accent2);text-decoration:none} .crumb a:hover{text-decoration:underline}
+  h1{font:700 clamp(30px,4.5vw,44px)/1.1 "Outfit",sans-serif;margin:0;background:linear-gradient(95deg,var(--accent),var(--lilac-d) 55%,var(--accent2));
+     -webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+  .sub{color:var(--dim);font-size:15px;margin:6px 0 20px}
+  .draft{display:inline-block;font:600 12px "Outfit",sans-serif;border-radius:8px;padding:1px 9px;margin-left:6px;background:var(--lemon);color:var(--lemon-d);border:1px solid #e6d8a8}
+  section{background:#ffffffe6;border:1px solid var(--line);border-left:6px solid var(--sec,var(--sky-d));border-radius:12px;padding:14px 20px;margin:14px 0;
+          box-shadow:0 1px 3px rgba(38,37,46,.06)}
+  section:nth-of-type(6n+1){--sec:#e0b94a} section:nth-of-type(6n+2){--sec:#62b58a} section:nth-of-type(6n+3){--sec:#6f9fd8}
+  section:nth-of-type(6n+4){--sec:#e39068} section:nth-of-type(6n+5){--sec:#9a83dc} section:nth-of-type(6n+6){--sec:#e07ea5}
+  h2{font:600 20px "Outfit",sans-serif;margin:2px 0 8px}
+  h3{font:600 16px "Outfit",sans-serif;margin:14px 0 4px}
+  p{margin:8px 0} ul,ol{margin:6px 0;padding-left:22px} li{margin:4px 0}
+  a{color:var(--sky-d);text-decoration-thickness:1.5px;text-underline-offset:2px}
+  code{background:#f6f2ea;border:1px solid var(--line);border-radius:5px;padding:0 5px;font-size:13.5px}
+  .tw{overflow-x:auto;margin:8px 0}
+  table{border-collapse:collapse;width:100%;font-size:14.5px}
+  th,td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+  th{font:600 13px "Outfit",sans-serif;text-transform:uppercase;letter-spacing:.8px;color:#4f4e63;background:#faf6ee}
+  footer{margin-top:28px;color:var(--dim);font-size:13px}
+
+  /* the quiz */
+  .q{border:1px solid var(--line);border-radius:10px;background:#fff;padding:12px 16px;margin:12px 0}
+  .q fieldset{border:0;margin:0;padding:0;min-width:0}
+  .q legend{padding:0;font-weight:600;margin-bottom:4px}
+  .q .topic{display:inline-block;font:600 11.5px "Outfit",sans-serif;text-transform:uppercase;letter-spacing:.7px;color:#4f4e63;
+            background:#faf6ee;border:1px solid var(--line);border-radius:8px;padding:0 8px;margin-left:6px;vertical-align:1px}
+  .q pre{background:#f6f2ea;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:8px 0;overflow-x:auto;
+         font:13.5px/1.45 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+  .q label{display:flex;gap:8px;align-items:baseline;padding:5px 8px;border-radius:8px;border:1px solid transparent;cursor:pointer}
+  .q label:hover{background:#faf6ee}
+  .q label code{background:transparent;border:0;padding:0;font-size:14px}
+  .q.done label{cursor:default} .q.done label:hover{background:transparent}
+  .q label.right{background:var(--mint);border-color:#9fd2b7}
+  .q label.wrong{background:var(--rose);border-color:#eaa9c2}
+  .q .mark{font-weight:600;margin-left:auto;white-space:nowrap}
+  .q .why{display:none;margin:8px 0 2px;padding:8px 12px;border-left:4px solid var(--sky-d);background:#f4f8fd;border-radius:0 8px 8px 0;font-size:15px}
+  .q.done .why{display:block}
+  .bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px}
+  button{font:600 15px "Outfit",sans-serif;border-radius:10px;border:1px solid var(--accent);background:var(--accent);color:#fff;padding:8px 18px;cursor:pointer}
+  button.ghost{background:#fff;color:var(--accent)}
+  button:focus-visible, input:focus-visible{outline:3px solid var(--lilac-d);outline-offset:2px}
+  #result{display:none;margin-top:14px;padding:12px 16px;border-radius:10px;border:1px solid var(--line);background:#fff}
+  #result.show{display:block}
+  #result .score{font:700 22px "Outfit",sans-serif}
+  .note{color:var(--dim);font-size:14.5px}
+  @media (max-width:700px){ body{padding:20px 16px 48px} section{padding:12px 14px} .q{padding:10px 12px} }
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="crumb"><a href="../index.html">← course hub</a></div>
+  <h1>Prerequisites</h1>
+  <div class="sub">CSS 173 · Fundamentals of Programming Theory and Applications · Winter 2027<span class="draft">draft</span></div>
+
+<section id="courses">
+<h2>Prerequisite courses</h2>
+<p>One of the following, completed before the first class meeting:</p>
+<ul>
+<li><strong>CSS 142</strong> Computer Programming I (UW Bothell)</li>
+<li><strong>CSE 122</strong> or <strong>CSE 142</strong> (UW Seattle)</li>
+</ul>
+<p>If you have already taken CSS 143, talk to the instructor in the first week: the two courses overlap.</p>
+</section>
+
+<section id="assumed">
+<h2>What the course assumes</h2>
+<p>The course starts from structured programming as taught in a first programming course. You should be able to read a
+short program in the language you learned and say what it prints, and write one of the same size without help.</p>
+<div class="tw"><table>
+<thead><tr><th>Topic</th><th>You can</th></tr></thead>
+<tbody>
+<tr><td>Variables and types</td><td>Declare and assign integers, floating-point numbers, Booleans and strings; say what type an expression has</td></tr>
+<tr><td>Expressions</td><td>Evaluate arithmetic with integer division and remainder; join strings and numbers</td></tr>
+<tr><td>Branching</td><td>Trace <code>if</code>, <code>else if</code> and <code>else</code>, and tell a chain from a sequence of separate tests</td></tr>
+<tr><td>Boolean expressions</td><td>Evaluate comparisons combined with <em>and</em>, <em>or</em> and <em>not</em></td></tr>
+<tr><td>Loops</td><td>Trace <code>for</code> and <code>while</code> loops, including nested ones, and count how many times a body runs</td></tr>
+<tr><td>Methods</td><td>Write a method with parameters and a return value; say what a call does to the caller's variables</td></tr>
+<tr><td>Arrays</td><td>Index a one-dimensional array, loop over it without leaving its bounds, and say when two variables name the same array</td></tr>
+<tr><td>Strings</td><td>Take a length and a substring; build a string in a loop</td></tr>
+<tr><td>Text files</td><td>Read values from a text file and write results to one</td></tr>
+<tr><td>Debugging</td><td>Read an error message, find the line it names, and add print statements to test a guess</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="not-assumed">
+<h2>What the course does not assume</h2>
+<ul>
+<li><strong>Python.</strong> The course is taught in Python and introduces it from the first line. The prerequisite courses use Java.</li>
+<li><strong>Classes and objects.</strong> Objects are introduced in week 6 and classes in week 9.</li>
+<li><strong>Statistics.</strong> Mean, standard deviation and correlation are defined when they are first used.</li>
+<li><strong>File systems.</strong> Paths, directories and managing files from a program are covered in weeks 7 to 9.</li>
+</ul>
+<p>Java and Python differ in a few ways that matter from the first week:</p>
+<div class="tw"><table>
+<thead><tr><th></th><th>Java</th><th>Python</th></tr></thead>
+<tbody>
+<tr><td>Types</td><td>Declared; a variable keeps its type</td><td>Taken from the value; a variable can be given a value of another type</td></tr>
+<tr><td>Blocks</td><td>Braces; indentation is for the reader</td><td>Indentation is the block</td></tr>
+<tr><td>Running code</td><td>Compile the program, then run it</td><td>Run a file, or type one line at a time into the interpreter</td></tr>
+<tr><td>Names</td><td><code>camelCase</code></td><td><code>snake_case</code></td></tr>
+<tr><td>Program shape</td><td>Everything is inside a class</td><td>A file of statements and functions is a complete program</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="quiz">
+<h2>Self-check quiz</h2>
+<p>Twelve questions on the topics above, in Java. Work each one on paper before choosing; do not run the code.
+The quiz is not graded and nothing you enter leaves this page.</p>
+<form id="quizform" novalidate></form>
+<div class="bar">
+  <button type="button" id="check">Check answers</button>
+  <button type="button" id="reset" class="ghost">Start over</button>
+  <span class="note" id="progress" aria-live="polite"></span>
+</div>
+<div id="result" role="status" aria-live="polite"></div>
+</section>
+
+<section id="reading">
+<h2>Reading your score</h2>
+<div class="tw"><table>
+<thead><tr><th>Score</th><th>What to do</th></tr></thead>
+<tbody>
+<tr><td>10 to 12</td><td>You have the background the course assumes.</td></tr>
+<tr><td>7 to 9</td><td>Review the topics you missed in your CSS 142 or CSE 122 notes before the first week. The first session reviews them briefly.</td></tr>
+<tr><td>6 or fewer</td><td>Review all of the topics above, then take the quiz again. If the score does not change, talk to the instructor before the end of the first week.</td></tr>
+</tbody></table></div>
+</section>
+
+  <footer>CSS 173 · Winter 2027 · Dr. Marcel Gavriliu. Content licensed <a href="../LICENSE">CC BY-NC-SA 4.0</a>.</footer>
+</main>
+
+<script>
+// Every answer below is the output of the snippet compiled and run with OpenJDK 11.
+const QUESTIONS = [
+  { topic: "Expressions", ask: "What does this print?",
+    code: 'int a = 7;\nint b = 2;\ndouble c = a / b;\nSystem.out.println(c);',
+    options: ["3.5", "3.0", "3", "4.0"], answer: 1,
+    why: "<code>a / b</code> divides two integers, so the result is the integer 3. Only then is it stored in the <code>double</code>, as 3.0." },
+  { topic: "Expressions", ask: "What does this print?",
+    code: 'System.out.println(1 + 2 + "3");',
+    options: ["123", "6", "33", "It does not compile"], answer: 2,
+    why: "<code>+</code> is evaluated left to right. <code>1 + 2</code> is the integer 3; <code>3 + \"3\"</code> joins it to the string, giving 33." },
+  { topic: "Branching", ask: "What does this print?",
+    code: 'int x = 15;\nif (x > 10) {\n    System.out.print("big ");\n}\nif (x > 20) {\n    System.out.print("huge ");\n} else {\n    System.out.print("modest ");\n}',
+    options: ["big", "big modest", "modest", "big huge"], answer: 1,
+    why: "These are two separate <code>if</code> statements. The first prints \"big\". The second is tested as well: 15 is not greater than 20, so its <code>else</code> prints \"modest\"." },
+  { topic: "Boolean expressions", ask: "What is the value of <code>r</code>?",
+    code: 'int a = 5;\nint b = 1;\nboolean r = !(a > 3 && b < 2) || a == b;',
+    options: ["true", "false", "5", "It does not compile"], answer: 1,
+    why: "<code>a &gt; 3</code> and <code>b &lt; 2</code> are both true, so the parenthesis is true and <code>!</code> makes it false. <code>a == b</code> is false. False or false is false." },
+  { topic: "Loops", ask: "What does this print?",
+    code: 'int sum = 0;\nfor (int i = 1; i <= 10; i += 3) {\n    sum += i;\n}\nSystem.out.println(sum);',
+    options: ["12", "22", "55", "18"], answer: 1,
+    why: "<code>i</code> takes the values 1, 4, 7 and 10. Their sum is 22." },
+  { topic: "Loops", ask: "What does this print?",
+    code: 'int n = 100;\nint count = 0;\nwhile (n > 1) {\n    n = n / 2;\n    count++;\n}\nSystem.out.println(count);',
+    options: ["5", "6", "7", "50"], answer: 1,
+    why: "Integer division takes <code>n</code> through 50, 25, 12, 6, 3 and 1. That is six halvings before <code>n &gt; 1</code> is false." },
+  { topic: "Loops", ask: "What does this print?",
+    code: 'int stars = 0;\nfor (int i = 0; i < 4; i++) {\n    for (int j = 0; j < i; j++) {\n        stars++;\n    }\n}\nSystem.out.println(stars);',
+    options: ["16", "10", "6", "12"], answer: 2,
+    why: "The inner loop runs <code>i</code> times: 0, 1, 2 and 3 times as <code>i</code> goes from 0 to 3. The total is 6." },
+  { topic: "Methods", ask: "What does <code>main</code> print?",
+    code: 'static void bump(int x) {\n    x = x + 1;\n}\n\npublic static void main(String[] args) {\n    int a = 5;\n    bump(a);\n    System.out.println(a);\n}',
+    options: ["5", "6", "0", "It does not compile"], answer: 0,
+    why: "The method receives a copy of the value of <code>a</code>. Changing the copy <code>x</code> leaves <code>a</code> at 5." },
+  { topic: "Methods", ask: "What does <code>step(step(6))</code> return?",
+    code: 'static int step(int n) {\n    if (n % 2 == 0) {\n        return n / 2;\n    }\n    return 3 * n + 1;\n}',
+    options: ["3", "10", "19", "1"], answer: 1,
+    why: "The inner call runs first: 6 is even, so <code>step(6)</code> returns 3. Then 3 is odd, so <code>step(3)</code> returns 3 * 3 + 1 = 10." },
+  { topic: "Arrays", ask: "What does this print?",
+    code: 'int[] a = {1, 2, 3};\nint[] b = a;\nb[0] = 9;\nSystem.out.println(a[0]);',
+    options: ["1", "9", "0", "It does not compile"], answer: 1,
+    why: "<code>b = a</code> does not copy the array. Both variables refer to the same array, so the change made through <code>b</code> is seen through <code>a</code>." },
+  { topic: "Strings", ask: "What does this print?",
+    code: 'String s = "Bothell";\nSystem.out.println(s.substring(1, 4) + s.length());',
+    options: ["Both7", "oth7", "othe7", "oth6"], answer: 1,
+    why: "<code>substring(1, 4)</code> takes the characters at positions 1, 2 and 3, counting from 0: \"oth\". The string has 7 characters." },
+  { topic: "Arrays", ask: "What happens when this runs?",
+    code: 'int[] v = {3, 1, 4, 1, 5};\nint total = 0;\nfor (int i = 0; i <= v.length; i++) {\n    total += v[i];\n}\nSystem.out.println(total);',
+    options: ["It prints 14", "It prints 9", "It stops with an ArrayIndexOutOfBoundsException", "It does not compile"], answer: 2,
+    why: "The array has positions 0 to 4. The condition <code>i &lt;= v.length</code> lets <code>i</code> reach 5, and <code>v[5]</code> does not exist. With <code>i &lt; v.length</code> the loop prints 14." },
+];
+
+const form = document.getElementById("quizform");
+const result = document.getElementById("result");
+const progress = document.getElementById("progress");
+const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+function render() {
+  form.innerHTML = QUESTIONS.map((q, i) => `
+    <div class="q" id="q${i}">
+      <fieldset>
+        <legend>${i + 1}. ${q.ask}<span class="topic">${q.topic}</span></legend>
+        <pre><code>${esc(q.code)}</code></pre>
+        ${q.options.map((o, k) => `
+          <label><input type="radio" name="q${i}" value="${k}"><code>${esc(o)}</code><span class="mark" aria-hidden="true"></span></label>`).join("")}
+        <div class="why">${q.why}</div>
+      </fieldset>
+    </div>`).join("");
+  result.className = "";
+  result.innerHTML = "";
+  count();
+}
+
+function count() {
+  const n = QUESTIONS.filter((_, i) => form.querySelector(`input[name="q${i}"]:checked`)).length;
+  progress.textContent = `${n} of ${QUESTIONS.length} answered`;
+}
+
+function check() {
+  let score = 0;
+  const missed = [];
+  QUESTIONS.forEach((q, i) => {
+    const box = document.getElementById(`q${i}`);
+    const picked = form.querySelector(`input[name="q${i}"]:checked`);
+    const labels = box.querySelectorAll("label");
+    box.classList.add("done");
+    labels.forEach((l) => { l.classList.remove("right", "wrong"); l.querySelector(".mark").textContent = ""; l.querySelector("input").disabled = true; });
+    labels[q.answer].classList.add("right");
+    labels[q.answer].querySelector(".mark").textContent = "correct answer";
+    if (picked && Number(picked.value) === q.answer) {
+      score++;
+    } else {
+      if (picked) {
+        labels[Number(picked.value)].classList.add("wrong");
+        labels[Number(picked.value)].querySelector(".mark").textContent = "your answer";
+      }
+      if (!missed.includes(q.topic)) missed.push(q.topic);
+    }
+  });
+  const advice = score >= 10 ? "You have the background the course assumes."
+    : score >= 7 ? "Review the topics you missed before the first week."
+    : "Review all of the topics in the table above, then take the quiz again.";
+  result.innerHTML = `<div class="score">${score} of ${QUESTIONS.length}</div><p>${advice}</p>` +
+    (missed.length ? `<p><strong>Topics to review:</strong> ${missed.join(", ")}.</p>` : "");
+  result.className = "show";
+  result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+form.addEventListener("change", count);
+document.getElementById("check").addEventListener("click", check);
+document.getElementById("reset").addEventListener("click", () => { render(); document.getElementById("quiz").scrollIntoView({ behavior: "smooth" }); });
+render();
+</script>
+</body>
+</html>
